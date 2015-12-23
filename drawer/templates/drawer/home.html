@@ -1,0 +1,290 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Graph Drawer</title>
+  <link rel="icon" href="{% static 'drawer/media/favicon.ico' %}" type="image/ico"/>
+  <link rel="shortcut icon" href="{% static 'drawer/media/favicon.ico' %}" type="image/ico"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'drawer/css/bootstrap.css' %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'drawer/css/styles.css' %}"/>
+</head>
+<body>
+
+  <nav class="navjumb navbar navbar-default">
+    <div class="container">
+      <div id="navbar" class="navbar-collapse collapse">
+       <p class="header"><b>Graph Drawer</b></p>
+      </div>
+    </div>
+  </nav><br>
+
+  <div class="container-fluid">
+    <div class="col-md-9">
+      <canvas id="canvas" class="canvas"></canvas>
+    </div>
+    <div class="col-md-3 actions">
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div id="vertex_type" class="panel-heading">
+            <h4 class="panel-title content">
+              <a data-toggle="collapse" data-parent="#accordion" href="#vertex"> <b>Vertex shape</b></a> 
+            </h4>
+            <div id="vertex" class="panel-collapse collapse">
+              <div class="panel-body content">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="vertex" id="fillc" value="fillc" checked>
+                    Filled Circle
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="vertex" id="strokec" value="strokec">
+                    Empty Circle
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="vertex" id="fillr" value="fillr">
+                    Filled Rectangle
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="vertex" id="stroker" value="stroker">
+                    Empty Rectangle
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label for="radius">Vertex radius</label>
+                  <input type="number" min="1" class="form-control" id="radius" placeholder="Vertex radius">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div id="edge_type" class="panel-heading">
+            <h4 class="panel-title content">
+              <a data-toggle="collapse" data-parent="#accordion" href="#edge"> <b>Edge style</b></a> 
+            </h4>
+            <div id="edge" class="panel-collapse collapse">
+              <div class="panel-body content">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="edge" id="full" value="full" checked>
+                    Full Line
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="edge" id="dot" value="dot">
+                    Dot Line
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div id="interactive-op" class="panel-heading">
+            <h4 class="panel-title content">
+              <a data-toggle="collapse" data-parent="#accordion" href="#interactive"> <b>Interactive options</b></a> 
+            </h4>
+            <div id="interactive" class="panel-collapse collapse">
+              <div class="panel-body content">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="interactive" id="select" value="select" checked>
+                    Select and move vertex
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="interactive" id="add" value="add">
+                    Add vertex
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="interactive" id="delete" value="delete">
+                    Delete vertex
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="interactive" id="add-e" value="add-e">
+                    Add edge
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="interactive" id="delete-e" value="delete-e">
+                    Delete edge
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="interactive" id="change-color" value="change-color">
+                    Change vertex color <input type="color" id="color-picker" class="form-control" value="#000000">
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="interactive" id="change-color-e" value="change-color">
+                    Change edges color <input type="color" id="color-picker-e" class="form-control" value="#000000">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div id="random_info" class="panel-heading">
+            <h4 class="panel-title content">
+              <a data-toggle="collapse" data-parent="#accordion" href="#random-data"> <b>Random data</b></a> 
+            </h4>
+            <div id="random-data" class="panel-collapse collapse">
+              <div class="panel-body content">
+                <div class="form-group">
+                  <label for="random-n">Number of vertex</label>
+                  <input type="number" min="1" class="form-control" id="random-n" placeholder="Number of vertex">
+                </div>
+                <div class="form-group">
+                  <label for="random-m">Number of edges</label>
+                  <input type="number" min="0" class="form-control" id="random-m" placeholder="Number of edges">
+                </div>
+                <div class="form-group">
+                  <label for="random-d">Max degree per vertex</label>
+                  <input type="number" min="0" class="form-control" id="random-d" placeholder="Max degree per vertex">
+                </div>
+                <button id="random" type="button" class="btn btn-default">Random</button>
+                <button id="random-upload" type="button" class="btn btn-default">UL input</button>
+                <button id="random-input" type="button" class="btn btn-default">DL input</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div id="energy" class="panel-heading">
+            <h4 class="panel-title content">
+              <a data-toggle="collapse" data-parent="#accordion" href="#energy-data"> <b>Energy equation</b></a> 
+            </h4>
+            <div id="energy-data" class="panel-collapse collapse">
+              <div class="panel-body content">
+                <div class="form-group">
+                  <label for="cross">Cross constant</label>
+                  <input type="number" min="0" step="0.001" max="1" class="form-control" id="cross" placeholder="Cross constant">
+                </div>
+                <div class="form-group">
+                  <label for="area">Area constant</label>
+                  <input type="number" min="0" step="0.001" max="1" class="form-control" id="area" placeholder="Area constant">
+                </div>
+                <div class="form-group">
+                  <label for="symmetry">Symmetry constant</label>
+                  <input type="number" min="0" step="0.001" max="1" class="form-control" id="symmetry" placeholder="Symmetry constant">
+                </div>
+                <div class="form-group">
+                  <label for="angle">Angle constant</label>
+                  <input type="number" min="0" step="0.001" max="1" class="form-control" id="angle" placeholder="Angle constant">
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <button id="energy-button" type="button" class="btn btn-default">Get f(x)</button>
+                  </div>
+                  <div class="col-md-8">
+                    <input id="energy-val" class="form-control" type="text" value="f(x) = " readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div id="genetic" class="panel-heading">
+            <h4 class="panel-title content">
+              <a data-toggle="collapse" data-parent="#accordion" href="#genetic-data"> <b>Genetic parameters</b></a> 
+            </h4>
+            <div id="genetic-data" class="panel-collapse collapse">
+              <div class="panel-body content">
+                <div class="form-group">
+                  <label for="individual">Population size</label>
+                  <input type="number" min="2" class="form-control" id="individual" placeholder="Population size">
+                </div>
+                <div class="form-group">
+                  <label for="generation">Number of generations</label>
+                  <input type="number" min="1" class="form-control" id="generation" placeholder="Number of generations">
+                </div>
+                 <div class="form-group">
+                  <label for="cross-p">Cross probability</label>
+                  <input type="number" min="0" step="0.001" max="1" class="form-control" id="cross-p" placeholder="Cross probability">
+                </div>
+                <div class="form-group">
+                  <label for="mutation-p">Mutation probability</label>
+                  <input type="number" min="0" step="0.001" max="1" class="form-control" id="mutation-p" placeholder="Mutation probability">
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <button id="min-energy-button" type="button" class="btn btn-default">Min f(x)</button>
+                  </div>
+                  <div class="col-md-8">
+                    <input id="min-energy-val" class="form-control" type="text" value="f(x) = " readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div id="export" class="panel-heading">
+            <h4 class="panel-title content">
+              <a data-toggle="collapse" data-parent="#accordion" href="#export-data"> <b>Export image</b></a> 
+            </h4>
+            <div id="export-data" class="panel-collapse collapse">
+              <div class="panel-body content">
+                <div class="row">
+                  <div class="col-md-12">
+                    <button id="PNG-button" type="button" class="btn btn-default">Get PNG</button>
+                    <button id="SVG-button" type="button" class="btn btn-default">Get SVG</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form id="inputFile" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" id="exampleInputFile" accept=".gml" name="file">
+      </form>
+      <form id="inputFile2" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" id="exampleInputFile2" accept=".in" name="file">
+      </form>
+      <a id="downloadGML" href="{% static 'drawer/gml' %}/graph{{id}}.gml" download="graph.gml"></a>
+      <a id="downloadPNG" href="#" download="graph.png"></a>
+      <a id="downloadSVG" href="#" download="graph.svg"></a>
+      <a id="downloadInput" href="{% static 'drawer/in' %}/graph{{id}}.in" download="graph.in"></a>
+      <button id="ul-gml" type="button" class="btn btn-default">UL GML</button>
+      <button id="dl-gml" type="button" class="btn btn-default">DL GML</button>
+      <button id="draw" type="button" class="btn btn-default">Repaint</button>
+      <button id="cancel-button" type="button" class="btn btn-default" style="visibility: hidden;">Cancel</button>
+    </div>
+  </div>
+
+  <nav class="navjumb navbar navbar-default">
+    <div class="container">
+      <div id="navbar" class="navbar-collapse collapse">
+        <p class="footer">Centro de Computaci&oacute;n Gr&aacute;fica © 2015. Todos los derechos reservados</p>
+      </div>
+    </div>
+  </nav>
+
+  <script type="text/javascript" src="{% static 'drawer/js/jquery-2.1.3.js' %}"></script>
+  <script type="text/javascript" src="{% static 'drawer/js/bootstrap.js' %}"></script>
+  <script type="text/javascript" src="{% static 'drawer/js/canvas2svg.js' %}"></script>
+  <script type="text/javascript" src="{% static 'drawer/js/Base64.js' %}"></script>
+  <script type="text/javascript" src="{% static 'drawer/js/functions.js' %}"></script>
+</body>
+</html>
